@@ -1,14 +1,12 @@
 public interface Contract {
-
-    void grab(String item);
-    String drop(String item);
-    void examine(String item);
-    void use(String item);
-    boolean walk(String direction);
-    boolean fly(int x, int y);
-    Number shrink();
-    Number grow();
-    void rest();
-    void undo();
-
+    public void grab(String item);
+    public String drop(String item);
+    public void examine(String item);
+    public void use(String item);
+    public boolean walk(String direction);
+    public boolean fly(int x, int y, int z);
+    public Number shrink();
+    public Number grow();
+    public void rest();
+    public void undo();
 }
