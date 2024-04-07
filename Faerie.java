@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -11,6 +12,7 @@ public class Faerie implements Contract {
     int y = 0;
     int z = 0;
     double faerieSize = 5.5;
+    Scanner scan = new Scanner(System.in);
 
     /**
      * Allows the faerie to grab items and add them to their bag
@@ -41,15 +43,33 @@ public class Faerie implements Contract {
      */
     public void examine(String item) {
         System.out.println("The faerie is examining the " + item + ".");
+        System.out.println("Should the faerie add this to their bag?");
+        String shouldGrab = scan.nextLine();
+        if (shouldGrab.contains("yes")) {
+            grab(item);
+        }
     }
 
     /**
-     * Allows the faerie to use an item
+     * Allows the faerie to use an item. If the faerie uses a wand, they cast a random spell.
      * @param item the item the faerie uses
      */
     public void use(String item) {
         if (!bag.contains(item)) {
             throw new RuntimeException("You have to grab this item before you can use it!");
+        }
+        if (item.contains("wand")) {
+            System.out.println("The faerie will cast a spell!");
+            String[] spells = {
+            "shapeshifting spell", 
+            "aging spell", 
+            "invisible spell.", 
+            "explosion spell",
+            "wisdom spell"}; 
+            Random random = new Random();
+            String randomSpell;
+            randomSpell = spells[random.nextInt(spells.length)];
+            System.out.println("The faerie just cast the "+ randomSpell + ".");
         }
         System.out.println("The faerie used the " + item + ".");
     }
@@ -132,9 +152,8 @@ public class Faerie implements Contract {
      * Allows certain methods such as grow, shrink, walk, fly, grab, and drop to be undone.
      */
     public void undo() {
-        Scanner myObj = new Scanner(System.in);
         System.out.println("Which method(s) will the faerie undo?");
-        String undoneMethod = myObj.nextLine();
+        String undoneMethod = scan.nextLine();
         if (undoneMethod.contains("grow")) {
             System.out.println("The faerie will shrink!");
             shrink();
@@ -150,15 +169,14 @@ public class Faerie implements Contract {
         }
         if (undoneMethod.contains("grab")) {
             System.out.println("What will the faerie drop?");
-            String item = myObj.nextLine();
+            String item = scan.nextLine();
             drop(item);
         }
         if (undoneMethod.contains("drop")) {
             System.out.println("What will the faerie grab?");
-            String item = myObj.nextLine();
+            String item = scan.nextLine();
             grab(item);
         }
-        myObj.close();  
     }
     
     /**
@@ -171,8 +189,8 @@ public class Faerie implements Contract {
         Tinkerbell.drop("wand");
         //Tinkerbell.drop("wand");
         Tinkerbell.examine("Cat");
-        Tinkerbell.grab("Stick");
-        Tinkerbell.use("Stick");
+        Tinkerbell.grab("wand");
+        Tinkerbell.use("wand");
         Tinkerbell.walk("right");
         //Tinkerbell.walk("r");
         //Tinkerbell.fly(2, 0, 3);
