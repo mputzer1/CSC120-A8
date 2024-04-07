@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The faeries class that implements the contract interface
+ */
 public class Faerie implements Contract {
     
     ArrayList<String> bag = new ArrayList<String>();
@@ -9,11 +12,20 @@ public class Faerie implements Contract {
     int z = 0;
     double faerieSize = 5.5;
 
+    /**
+     * Allows the faerie to grab items and add them to their bag
+     * @param item the name of the item the faerie adds to their bag
+     */
     public void grab(String item) {
         bag.add(item);
         System.out.println("The faerie added the " + item + " to their bag.");
     }
 
+    /**
+     * Allows the faerie to remove items from their bag
+     * @param item the name of the item the faerie removes from their bag
+     * @return item the name of removed item
+     */
     public String drop(String item) {
         if (!bag.contains(item)) {
             throw new RuntimeException("You must grab this item first!");
@@ -23,10 +35,18 @@ public class Faerie implements Contract {
         return item;
     }
 
+    /**
+     * Allows the faerie to examine an item
+     * @param item the item the faerie examines
+     */
     public void examine(String item) {
         System.out.println("The faerie is examining the " + item + ".");
     }
 
+    /**
+     * Allows the faerie to use an item
+     * @param item the item the faerie uses
+     */
     public void use(String item) {
         if (!bag.contains(item)) {
             throw new RuntimeException("You have to grab this item before you can use it!");
@@ -34,6 +54,11 @@ public class Faerie implements Contract {
         System.out.println("The faerie used the " + item + ".");
     }
 
+    /**
+     * Allows the faerie to change their x or z coordinates for location
+     * @param direction the direction the faerie will go
+     * @return boolean indicates whether faerie was able to change locations
+     */
     public boolean walk(String direction) {
         if (direction == "right") {
             x += 1;
@@ -58,6 +83,13 @@ public class Faerie implements Contract {
         throw new RuntimeException("You did not input a valid direction!");
     }
 
+    /**
+     * Allows the faerie to change their x, y, and z coordinates
+     * @param x allows the faerie to move right or left
+     * @param y allows faerie to move up or down
+     * @param z allows faerie to move forward or backward
+     * @return boolean indicates if faerie was able to move
+     */
     public boolean fly(int x, int y, int z) {
        if (!(y > 0)) {
         throw new RuntimeException("You have not flown! You must enter a number greater than 0 for y!");
@@ -69,51 +101,70 @@ public class Faerie implements Contract {
         return true;
     }
 
+    /**
+     * Shrinks the faerie's size by 0.5 feet.
+     * @return faerieSize
+     */
     public Number shrink() {
         faerieSize -= 0.5;
         System.out.println("The faerie has shrunk by 0.5 feet and is now " + faerieSize + " feet tall.");
         return faerieSize;
     }
 
+    /**
+     * Grows the faerie's size by 0.5 feet.
+     * @return faerieSize
+     */
     public Number grow() {
         faerieSize += 0.5;
         System.out.println("The faerie has grown by 0.5 feet and is now " + faerieSize + " feet tall.");
         return faerieSize;
     }
 
+    /**
+     * Allows the faerie to rest.
+     */
     public void rest() {
         System.out.println("The faerie is resting.");
     }
 
+    /**
+     * Allows certain methods such as grow, shrink, walk, fly, grab, and drop to be undone.
+     */
     public void undo() {
         Scanner myObj = new Scanner(System.in);
-        System.out.println("Which method will the faerie undo?");
+        System.out.println("Which method(s) will the faerie undo?");
         String undoneMethod = myObj.nextLine();
-        if (undoneMethod == "grow") {
+        if (undoneMethod.contains("grow")) {
             System.out.println("The faerie will shrink!");
             shrink();
         }
-        if (undoneMethod == "shrink") {
+        if (undoneMethod.contains("shrink")) {
             grow();
         }
-        if (undoneMethod == "walk" || undoneMethod == "fly") {
+        if (undoneMethod.contains("walk") || undoneMethod.contains("fly")) {
             x = 0;
             y = 0;
             z = 0;
             System.out.println("The faerie's new location is (" + x + "," + y + "," + z + ").");
         }
-        if (undoneMethod == "grab") {
+        if (undoneMethod.contains("grab")) {
+            System.out.println("What will the faerie drop?");
             String item = myObj.nextLine();
             drop(item);
         }
-        if (undoneMethod == "drop") {
+        if (undoneMethod.contains("drop")) {
+            System.out.println("What will the faerie grab?");
             String item = myObj.nextLine();
             grab(item);
         }
         myObj.close();  
     }
     
-class Main {
+    /**
+     * Allows the methods for the class to be tested
+     * @param args
+     */
     public static void main(String[] args) {
         Faerie Tinkerbell = new Faerie();
         Tinkerbell.grab("wand");
@@ -132,6 +183,4 @@ class Main {
         Tinkerbell.rest();
         Tinkerbell.undo();
     }
-}
-    
 }
