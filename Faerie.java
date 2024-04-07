@@ -43,15 +43,15 @@ public class Faerie implements Contract {
      */
     public void examine(String item) {
         System.out.println("The faerie is examining the " + item + ".");
-        System.out.println("Should the faerie add this to their bag?");
+        System.out.println("Should the faerie add this to their bag? (y/n)");
         String shouldGrab = scan.nextLine();
-        if (shouldGrab.contains("yes")) {
+        if (shouldGrab.contains("y")) {
             grab(item);
         }
     }
 
     /**
-     * Allows the faerie to use an item. If the faerie uses a wand, they cast a random spell.
+     * Allows the faerie to use an item. If the faerie uses a wand, spellcasting() is called.
      * @param item the item the faerie uses
      */
     public void use(String item) {
@@ -59,19 +59,26 @@ public class Faerie implements Contract {
             throw new RuntimeException("You have to grab this item before you can use it!");
         }
         if (item.contains("wand")) {
-            System.out.println("The faerie will cast a spell!");
-            String[] spells = {
-            "shapeshifting spell", 
-            "aging spell", 
-            "invisible spell.", 
-            "explosion spell",
-            "wisdom spell"}; 
-            Random random = new Random();
-            String randomSpell;
-            randomSpell = spells[random.nextInt(spells.length)];
-            System.out.println("The faerie just cast the "+ randomSpell + ".");
+            spellcasting();
         }
         System.out.println("The faerie used the " + item + ".");
+    }
+
+    /**
+     * Allows the faerie to cast a random spell.
+     */
+    public void spellcasting() {
+        System.out.println("The faerie will cast a spell!");
+        String[] spells = {
+        "shapeshifting spell", 
+        "aging spell", 
+        "invisible spell.", 
+        "explosion spell",
+        "wisdom spell"}; 
+        Random random = new Random();
+        String randomSpell;
+        randomSpell = spells[random.nextInt(spells.length)];
+        System.out.println("The faerie just cast the "+ randomSpell + ".");
     }
 
     /**
